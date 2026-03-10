@@ -1,6 +1,7 @@
 # DeerFlow Backend — Railway deployment
-# Runs both gateway (port 8001) and langgraph server (port 2024) in one container.
-# A supervisord process manager keeps both alive and restarts on failure.
+# Based on the official backend/Dockerfile with Railway-specific additions:
+# - supervisord to run gateway (8001) + langgraph (2024) in one container
+# - /data volume symlinks for persistent state
 
 FROM python:3.12-slim
 
@@ -9,28 +10,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
         build-essential \
         supervisor \
+        git \
     && rm -rf /var/lib/apt/lists/*
 
-# ── uv (fast Python package manager) ───────────────────────────────────────
+# ── uv ───────────────────────────────────────────────────────────────────────
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:$PATH"
 
-# ── App source ──────────────────────────────────────────────────────────────
 WORKDIR /app
+
+# ── Source ────────────────────────────────────────────────────────────────────
 COPY backend ./backend
 COPY skills ./skills
-
-# Use the Railway-specific config (MiniMax + Ollama pre-configured)
 COPY railway/config.railway.yaml ./config.yaml
 
-# ── Install Python dependencies ─────────────────────────────────────────────
-RUN cd backend && uv sync --frozen
+# Create empty .env for langgraph.json reference (real secrets come from Railway env)
+RUN touch ./backend/.env
 
-# ── supervisord config ──────────────────────────────────────────────────────
-# Place in conf.d so supervisord picks it up automatically
+# ── Install Python deps ───────────────────────────────────────────────────────
+RUN cd backend && uv sync
+
+# ── supervisord config ────────────────────────────────────────────────────────
 COPY railway/supervisord.conf /etc/supervisor/conf.d/deerflow.conf
 
-# ── Startup script ───────────────────────────────────────────────────────────
+# ── Startup ───────────────────────────────────────────────────────────────────
 COPY railway/start-backend.sh /start.sh
 RUN chmod +x /start.sh
 
