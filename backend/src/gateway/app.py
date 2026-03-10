@@ -10,6 +10,7 @@ from src.gateway.routers import (
     agents,
     artifacts,
     channels,
+    langgraph_proxy,
     mcp,
     memory,
     models,
@@ -175,6 +176,10 @@ This gateway provides custom endpoints for models, MCP configuration, skills, an
 
     # Channels API is mounted at /api/channels
     app.include_router(channels.router)
+
+    # LangGraph proxy — forwards /api/langgraph/* to localhost:2024
+    # (LangGraph dev server runs in same container but Railway only exposes port 8001)
+    app.include_router(langgraph_proxy.router)
 
     @app.get("/health", tags=["health"])
     async def health_check() -> dict:
