@@ -61,7 +61,7 @@ async def langgraph_proxy(path: str, request: Request) -> Response:
     except httpx.ConnectError:
         logger.warning("LangGraph server not reachable at %s", LANGGRAPH_BASE)
         return Response(
-            content=b'{"detail":"LangGraph server not ready yet — please retry in a few seconds"}',
+            content=b'{"detail":"LangGraph server not ready yet - please retry in a few seconds"}',
             status_code=503,
             media_type="application/json",
         )
