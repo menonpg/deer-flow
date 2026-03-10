@@ -30,8 +30,17 @@ function createCompatibleClient(isMock?: boolean): LangGraphClient {
   return client;
 }
 
-let _singleton: LangGraphClient | null = null;
+// Keep separate singletons for mock vs real — prevents the bug where opening
+// a case study (?mock=true) first locks the singleton to the mock API and
+// breaks all subsequent real-chat sessions in the same browser tab.
+let _realClient: LangGraphClient | null = null;
+let _mockClient: LangGraphClient | null = null;
+
 export function getAPIClient(isMock?: boolean): LangGraphClient {
-  _singleton ??= createCompatibleClient(isMock);
-  return _singleton;
+  if (isMock) {
+    _mockClient ??= createCompatibleClient(true);
+    return _mockClient;
+  }
+  _realClient ??= createCompatibleClient(false);
+  return _realClient;
 }
