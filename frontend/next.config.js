@@ -26,10 +26,8 @@ const config = {
           source: "/api/:path*",
           destination: `${BACKEND_URL}/api/:path*`,
         },
-        {
-          source: "/mock/api/:path*",
-          destination: `${BACKEND_URL}/mock/api/:path*`,
-        },
+        // NOTE: /mock/api/* is intentionally NOT proxied — those are Next.js API route
+        // handlers that serve static demo thread JSON from public/demo/threads/.
       ],
       fallback: [],
     };
