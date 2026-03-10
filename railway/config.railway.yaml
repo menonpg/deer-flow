@@ -22,8 +22,9 @@ models:
     api_key: $AZURE_OPENAI_KEY
     azure_deployment: $AZURE_OPENAI_DEPLOYMENT
     api_version: $AZURE_OPENAI_API_VERSION
-    max_tokens: 4096
+    max_tokens: 16384
     temperature: 0.7
+    supports_thinking: true
 
   # ── Azure OpenAI GPT-4o (llminference01 — vision + general) ─────────────
   - name: azure-gpt4o
@@ -37,6 +38,7 @@ models:
     max_tokens: 4096
     temperature: 0.7
     supports_vision: true
+    supports_thinking: true
 
   # ── Google Gemini ────────────────────────────────────────────────────────
   - name: gemini
@@ -46,6 +48,7 @@ models:
     api_key: $GEMINI_API_KEY
     max_tokens: 4096
     temperature: 0.7
+    supports_thinking: true
 
   # ── MiniMax M2 via Ollama cloud ──────────────────────────────────────────
   # Requires: ollama pull minimax-m2:cloud on the Ollama service
