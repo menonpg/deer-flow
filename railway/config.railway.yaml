@@ -1,43 +1,50 @@
 # DeerFlow — Railway Deployment Config
-# Pre-configured for MiniMax free cloud + Ollama (Railway private network).
+# Pre-configured for Azure OpenAI (uses existing credentials).
+# Swap any model block to your preferred provider.
 #
-# Required env vars in Railway:
-#   MINIMAX_API_KEY     — get free at https://www.minimaxi.com/en/
-#   TAVILY_API_KEY      — get free 1000/mo at https://tavily.com (optional)
+# Required env vars (set in Railway dashboard → backend service):
+#   AZURE_OPENAI_API_KEY     — your Azure OpenAI key
+#   AZURE_OPENAI_ENDPOINT    — e.g. https://xxx.cognitiveservices.azure.com
+#   AZURE_OPENAI_API_VERSION — e.g. 2024-12-01-preview
 #
-# Optional (if Ollama service added to Railway project):
-#   OLLAMA_URL          — set automatically via Railway reference variable
-#                         e.g. https://${{ollama.RAILWAY_PUBLIC_DOMAIN}}
+# Optional:
+#   TAVILY_API_KEY           — https://tavily.com (1000 free/month)
+#   OLLAMA_URL               — if using Ollama service on Railway
 
 # ============================================================================
 # Models
 # ============================================================================
 models:
-  # ── MiniMax (free cloud tier — recommended primary) ──────────────────────
-  # Sign up at https://www.minimaxi.com/en/ — free tier available
-  # OpenAI-compatible API, no local GPU needed
-  - name: minimax
-    display_name: MiniMax Text-01 (Free)
-    use: langchain_openai:ChatOpenAI
-    model: MiniMax-Text-01
-    api_key: $MINIMAX_API_KEY
-    base_url: https://api.minimax.chat/v1
+  # ── Azure OpenAI (recommended — uses existing keys) ──────────────────────
+  - name: azure-gpt
+    display_name: Azure OpenAI GPT
+    use: langchain_openai:AzureChatOpenAI
+    azure_endpoint: $AZURE_OPENAI_ENDPOINT
+    api_key: $AZURE_OPENAI_API_KEY
+    azure_deployment: $AZURE_OPENAI_DEPLOYMENT
+    api_version: $AZURE_OPENAI_API_VERSION
     max_tokens: 4096
     temperature: 0.7
     supports_vision: false
 
-  # ── Ollama (Railway private network — free local inference) ───────────────
-  # Add an Ollama service to your Railway project, then set OLLAMA_URL.
-  # Pull a model first: railway run --service ollama -- ollama pull llama3.2
-  - name: ollama-llama3
-    display_name: Llama 3.2 (Ollama / Free)
-    use: langchain_openai:ChatOpenAI
-    model: llama3.2
-    api_key: ollama
-    base_url: $OLLAMA_URL/v1
-    max_tokens: 4096
-    temperature: 0.7
-    supports_vision: false
+  # ── Ollama (optional — add Ollama service to Railway project) ────────────
+  # - name: ollama-llama3
+  #   display_name: Llama 3.2 (Ollama / Free)
+  #   use: langchain_openai:ChatOpenAI
+  #   model: llama3.2
+  #   api_key: ollama
+  #   base_url: $OLLAMA_URL/v1
+  #   max_tokens: 4096
+  #   temperature: 0.7
+
+  # ── MiniMax (free cloud — get key at minimaxi.com/en) ────────────────────
+  # - name: minimax
+  #   display_name: MiniMax Text-01 (Free)
+  #   use: langchain_openai:ChatOpenAI
+  #   model: MiniMax-Text-01
+  #   api_key: $MINIMAX_API_KEY
+  #   base_url: https://api.minimax.chat/v1
+  #   max_tokens: 4096
 
 # ============================================================================
 # Tools
@@ -49,7 +56,7 @@ tool_groups:
   - name: bash
 
 tools:
-  # Web search — Tavily (1000 free/month). Remove if no API key.
+  # Web search — Tavily (1000 free/month). Set TAVILY_API_KEY in Railway.
   - name: web_search
     group: web
     use: src.community.tavily.tools:web_search_tool
@@ -81,19 +88,19 @@ tools:
     group: file:write
     use: src.sandbox.tools:str_replace_tool
 
-  # Bash — runs directly on the Railway container (local sandbox mode)
+  # Bash — runs on Railway container (no Docker-in-Docker needed)
   - name: bash
     group: bash
     use: src.sandbox.tools:bash_tool
 
 # ============================================================================
-# Sandbox — Local mode (no Docker-in-Docker needed on Railway)
+# Sandbox — Local mode (no Docker-in-Docker on Railway)
 # ============================================================================
 sandbox:
   use: src.sandbox.local:LocalSandboxProvider
 
 # ============================================================================
-# Checkpointer — SQLite (persists to /data volume across restarts)
+# Checkpointer — SQLite (persists to /data volume)
 # ============================================================================
 checkpointer:
   type: sqlite
