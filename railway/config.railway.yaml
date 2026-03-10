@@ -13,39 +13,29 @@
 # Models
 # ============================================================================
 models:
-  # ── MiniMax M2 via Ollama cloud (no API key needed!) ─────────────────────
-  # Ollama transparently proxies to MiniMax's cloud — just pull and use.
-  # Pull via Railway shell: ollama pull minimax-m2:cloud
-  - name: minimax-m2
-    display_name: MiniMax M2 (Ollama Cloud)
-    use: langchain_openai:ChatOpenAI
-    model: minimax-m2:cloud
-    api_key: ollama
-    base_url: $OLLAMA_BASE_URL
+  # ── Azure OpenAI GPT-5 ───────────────────────────────────────────────────
+  - name: azure-gpt
+    display_name: Azure GPT-5
+    use: langchain_openai:AzureChatOpenAI
+    model: gpt-5
+    azure_endpoint: $AZURE_OPENAI_ENDPOINT
+    api_key: $AZURE_OPENAI_API_KEY
+    azure_deployment: $AZURE_OPENAI_DEPLOYMENT
+    api_version: $AZURE_OPENAI_API_VERSION
     max_tokens: 4096
     temperature: 0.7
-    supports_vision: false
 
-  # ── Azure OpenAI (alternative — set AZURE_* env vars in Railway) ──────────
-  # - name: azure-gpt
-  #   display_name: Azure GPT
-  #   use: langchain_openai:AzureChatOpenAI
-  #   model: gpt-5
-  #   azure_endpoint: $AZURE_OPENAI_ENDPOINT
-  #   api_key: $AZURE_OPENAI_API_KEY
-  #   azure_deployment: $AZURE_OPENAI_DEPLOYMENT
-  #   api_version: $AZURE_OPENAI_API_VERSION
+  # ── MiniMax M2 via Ollama cloud (requires Ollama service + model pull) ───
+  # To enable: add an Ollama service to Railway, set OLLAMA_BASE_URL, then
+  # run: ollama pull minimax-m2:cloud
+  # - name: minimax-m2
+  #   display_name: MiniMax M2 (Ollama Cloud)
+  #   use: langchain_openai:ChatOpenAI
+  #   model: minimax-m2:cloud
+  #   api_key: ollama
+  #   base_url: $OLLAMA_BASE_URL
   #   max_tokens: 4096
   #   temperature: 0.7
-
-  # ── MiniMax API direct (free tier — sign up at minimaxi.com/en) ──────────
-  # - name: minimax-direct
-  #   display_name: MiniMax Text-01 (Direct API)
-  #   use: langchain_openai:ChatOpenAI
-  #   model: MiniMax-Text-01
-  #   api_key: $MINIMAX_API_KEY
-  #   base_url: https://api.minimax.chat/v1
-  #   max_tokens: 4096
 
 # ============================================================================
 # Tools
