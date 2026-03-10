@@ -10,7 +10,7 @@ export function Header() {
     <header className="container-md fixed top-0 right-0 left-0 z-20 mx-auto flex h-16 items-center justify-between backdrop-blur-xs">
       <div className="flex items-center gap-2">
         <a href="https://thinkcreateai.com" target="_blank">
-          <Image src="/images/logo.png" alt="ThinkCreate.AI" width={180} height={36} className="object-contain" />
+          <Image src="/images/logo.png" alt="ThinkCreate.AI" width={180} height={36} className="object-contain" style={{ filter: "brightness(0) invert(1)" }} />
         </a>
       </div>
       <div className="relative">

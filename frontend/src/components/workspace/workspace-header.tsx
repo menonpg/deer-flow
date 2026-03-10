@@ -39,11 +39,11 @@ export function WorkspaceHeader({ className }: { className?: string }) {
           <div className="flex items-center justify-between gap-2">
             {env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY === "true" ? (
               <Link href="/" className="ml-2">
-                <Image src="/images/logo.png" alt="ThinkCreate.AI" width={140} height={28} className="object-contain" />
+                <Image src="/images/logo.png" alt="ThinkCreate.AI" width={140} height={28} className="object-contain" style={{ filter: "brightness(0) invert(1)" }} />
               </Link>
             ) : (
               <div className="ml-2 cursor-default">
-                <Image src="/images/logo.png" alt="ThinkCreate.AI" width={140} height={28} className="object-contain" />
+                <Image src="/images/logo.png" alt="ThinkCreate.AI" width={140} height={28} className="object-contain" style={{ filter: "brightness(0) invert(1)" }} />
               </div>
             )}
             <SidebarTrigger />

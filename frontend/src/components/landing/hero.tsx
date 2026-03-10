@@ -32,8 +32,8 @@ export function Hero({ className }: { className?: string }) {
         squareSize={4}
         gridGap={4}
         color={"white"}
-        maxOpacity={0.3}
-        flickerChance={0.25}
+        maxOpacity={0.7}
+        flickerChance={0.3}
       />
       <div className="container-md relative z-10 mx-auto flex h-screen flex-col items-center justify-center">
         <h1 className="flex items-center gap-2 text-4xl font-bold md:text-6xl">
