@@ -1,0 +1,45 @@
+# DeerFlow Backend — Railway deployment
+# Runs both gateway (port 8001) and langgraph server (port 2024) in one container.
+# A supervisord process manager keeps both alive and restarts on failure.
+
+FROM python:3.12-slim
+
+# ── System dependencies ─────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        build-essential \
+        supervisor \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── uv (fast Python package manager) ───────────────────────────────────────
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"
+
+# ── App source ──────────────────────────────────────────────────────────────
+WORKDIR /app
+COPY backend ./backend
+COPY config.example.yaml ./config.yaml
+COPY skills ./skills
+
+# ── Install Python dependencies ─────────────────────────────────────────────
+RUN cd backend && uv sync --frozen
+
+# ── Persistent data directory ───────────────────────────────────────────────
+# Railway volume should be mounted at /data.
+# We symlink .deer-flow (thread checkpoints) and memory.json there so they
+# survive container restarts and deployments.
+RUN mkdir -p /data/.deer-flow && \
+    ln -sf /data/.deer-flow /app/backend/.deer-flow && \
+    touch /data/memory.json && \
+    ln -sf /data/memory.json /app/backend/memory.json
+
+# ── supervisord config ──────────────────────────────────────────────────────
+COPY railway/supervisord.conf /etc/supervisor/conf.d/deerflow.conf
+
+# ── Startup script ───────────────────────────────────────────────────────────
+COPY railway/start-backend.sh /start.sh
+RUN chmod +x /start.sh
+
+EXPOSE 8001 2024
+
+CMD ["/start.sh"]

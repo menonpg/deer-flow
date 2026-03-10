@@ -1,0 +1,20 @@
+# DeerFlow Frontend — Railway deployment
+# Production Next.js build. Backend URLs set via env vars at build time.
+
+FROM node:22-alpine
+
+RUN corepack enable && corepack install -g pnpm@10.26.2
+
+WORKDIR /app
+COPY frontend ./frontend
+
+# Install deps
+RUN cd frontend && pnpm install --frozen-lockfile
+
+# Build — skip env validation during build (vars injected by Railway at runtime)
+RUN cd frontend && SKIP_ENV_VALIDATION=1 pnpm run build
+
+EXPOSE 3000
+
+# next start serves the production build
+CMD ["sh", "-c", "cd /app/frontend && pnpm start"]

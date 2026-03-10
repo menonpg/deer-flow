@@ -1,0 +1,62 @@
+# DeerFlow — Railway deployment configuration
+# One-click deploy: https://railway.app/template/deerflow (coming soon)
+#
+# Services:
+#   backend  — DeerFlow gateway (8001) + LangGraph server (2024)
+#   frontend — Next.js UI (3000)
+#
+# Optional: add an Ollama service from the Railway marketplace and set
+#   OLLAMA_URL = https://${{ollama.RAILWAY_PUBLIC_DOMAIN}}
+#   in the backend service's environment variables.
+#
+# Required env vars (set in Railway dashboard → backend service):
+#   MINIMAX_API_KEY      — MiniMax free cloud API key (https://www.minimaxi.com/en/)
+#   TAVILY_API_KEY       — Tavily search key (optional, 1000 free/month)
+#   DEER_FLOW_CONFIG_PATH — /app/config.yaml (set automatically)
+#
+# Volume (attach to backend service):
+#   Mount path: /data
+#   Stores thread checkpoints, memory, and SQLite database.
+#   Without a volume, all state is lost on redeploy.
+
+[build]
+builder = "DOCKERFILE"
+
+[[services]]
+name = "backend"
+source = "."
+
+[services.build]
+dockerfilePath = "railway/Dockerfile.backend"
+
+[services.deploy]
+startCommand = "/start.sh"
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+
+[[services.variables]]
+name = "DEER_FLOW_CONFIG_PATH"
+value = "/app/config.yaml"
+[[services.variables]]
+name = "PORT"
+value = "8001"
+
+[[services]]
+name = "frontend"
+source = "."
+
+[services.build]
+dockerfilePath = "railway/Dockerfile.frontend"
+
+[services.deploy]
+startCommand = "sh -c 'cd /app/frontend && pnpm start'"
+
+[[services.variables]]
+name = "NODE_ENV"
+value = "production"
+[[services.variables]]
+name = "PORT"
+value = "3000"
+# Set these to the Railway public URLs of your backend service:
+# NEXT_PUBLIC_BACKEND_BASE_URL    = https://<backend-service-url>
+# NEXT_PUBLIC_LANGGRAPH_BASE_URL  = https://<backend-service-url>/api/langgraph

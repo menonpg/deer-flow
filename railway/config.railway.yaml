@@ -1,0 +1,138 @@
+# DeerFlow — Railway Deployment Config
+# Pre-configured for MiniMax free cloud + Ollama (Railway private network).
+#
+# Required env vars in Railway:
+#   MINIMAX_API_KEY     — get free at https://www.minimaxi.com/en/
+#   TAVILY_API_KEY      — get free 1000/mo at https://tavily.com (optional)
+#
+# Optional (if Ollama service added to Railway project):
+#   OLLAMA_URL          — set automatically via Railway reference variable
+#                         e.g. https://${{ollama.RAILWAY_PUBLIC_DOMAIN}}
+
+# ============================================================================
+# Models
+# ============================================================================
+models:
+  # ── MiniMax (free cloud tier — recommended primary) ──────────────────────
+  # Sign up at https://www.minimaxi.com/en/ — free tier available
+  # OpenAI-compatible API, no local GPU needed
+  - name: minimax
+    display_name: MiniMax Text-01 (Free)
+    use: langchain_openai:ChatOpenAI
+    model: MiniMax-Text-01
+    api_key: $MINIMAX_API_KEY
+    base_url: https://api.minimax.chat/v1
+    max_tokens: 4096
+    temperature: 0.7
+    supports_vision: false
+
+  # ── Ollama (Railway private network — free local inference) ───────────────
+  # Add an Ollama service to your Railway project, then set OLLAMA_URL.
+  # Pull a model first: railway run --service ollama -- ollama pull llama3.2
+  - name: ollama-llama3
+    display_name: Llama 3.2 (Ollama / Free)
+    use: langchain_openai:ChatOpenAI
+    model: llama3.2
+    api_key: ollama
+    base_url: $OLLAMA_URL/v1
+    max_tokens: 4096
+    temperature: 0.7
+    supports_vision: false
+
+# ============================================================================
+# Tools
+# ============================================================================
+tool_groups:
+  - name: web
+  - name: file:read
+  - name: file:write
+  - name: bash
+
+tools:
+  # Web search — Tavily (1000 free/month). Remove if no API key.
+  - name: web_search
+    group: web
+    use: src.community.tavily.tools:web_search_tool
+    max_results: 5
+
+  # Web fetch — Jina AI reader (free, no API key required)
+  - name: web_fetch
+    group: web
+    use: src.community.jina_ai.tools:web_fetch_tool
+    timeout: 15
+
+  # Image search — DuckDuckGo (free)
+  - name: image_search
+    group: web
+    use: src.community.image_search.tools:image_search_tool
+    max_results: 5
+
+  # File operations
+  - name: ls
+    group: file:read
+    use: src.sandbox.tools:ls_tool
+  - name: read_file
+    group: file:read
+    use: src.sandbox.tools:read_file_tool
+  - name: write_file
+    group: file:write
+    use: src.sandbox.tools:write_file_tool
+  - name: str_replace
+    group: file:write
+    use: src.sandbox.tools:str_replace_tool
+
+  # Bash — runs directly on the Railway container (local sandbox mode)
+  - name: bash
+    group: bash
+    use: src.sandbox.tools:bash_tool
+
+# ============================================================================
+# Sandbox — Local mode (no Docker-in-Docker needed on Railway)
+# ============================================================================
+sandbox:
+  use: src.sandbox.local:LocalSandboxProvider
+
+# ============================================================================
+# Checkpointer — SQLite (persists to /data volume across restarts)
+# ============================================================================
+checkpointer:
+  type: sqlite
+  connection_string: /data/checkpoints.db
+
+# ============================================================================
+# Memory
+# ============================================================================
+memory:
+  enabled: true
+  storage_path: /data/memory.json
+  debounce_seconds: 30
+  max_facts: 100
+  fact_confidence_threshold: 0.7
+  injection_enabled: true
+  max_injection_tokens: 2000
+
+# ============================================================================
+# Skills
+# ============================================================================
+skills:
+  container_path: /mnt/skills
+
+# ============================================================================
+# Summarization
+# ============================================================================
+summarization:
+  enabled: true
+  trigger:
+    - type: tokens
+      value: 15564
+  keep:
+    type: messages
+    value: 10
+
+# ============================================================================
+# Title generation
+# ============================================================================
+title:
+  enabled: true
+  max_words: 6
+  max_chars: 60
