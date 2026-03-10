@@ -21,7 +21,7 @@ models:
     use: langchain_openai:ChatOpenAI
     model: minimax-m2:cloud
     api_key: ollama
-    base_url: $OLLAMA_BASE_URL/v1
+    base_url: $OLLAMA_BASE_URL
     max_tokens: 4096
     temperature: 0.7
     supports_vision: false
