@@ -18,22 +18,16 @@ ENV PATH="/root/.local/bin:$PATH"
 # ── App source ──────────────────────────────────────────────────────────────
 WORKDIR /app
 COPY backend ./backend
-COPY config.example.yaml ./config.yaml
 COPY skills ./skills
+
+# Use the Railway-specific config (MiniMax + Ollama pre-configured)
+COPY railway/config.railway.yaml ./config.yaml
 
 # ── Install Python dependencies ─────────────────────────────────────────────
 RUN cd backend && uv sync --frozen
 
-# ── Persistent data directory ───────────────────────────────────────────────
-# Railway volume should be mounted at /data.
-# We symlink .deer-flow (thread checkpoints) and memory.json there so they
-# survive container restarts and deployments.
-RUN mkdir -p /data/.deer-flow && \
-    ln -sf /data/.deer-flow /app/backend/.deer-flow && \
-    touch /data/memory.json && \
-    ln -sf /data/memory.json /app/backend/memory.json
-
 # ── supervisord config ──────────────────────────────────────────────────────
+# Place in conf.d so supervisord picks it up automatically
 COPY railway/supervisord.conf /etc/supervisor/conf.d/deerflow.conf
 
 # ── Startup script ───────────────────────────────────────────────────────────

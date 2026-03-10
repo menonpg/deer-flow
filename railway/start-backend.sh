@@ -6,12 +6,13 @@ mkdir -p /data/.deer-flow
 [ -f /data/memory.json ] || echo '{}' > /data/memory.json
 
 # Re-create symlinks in case the container was rebuilt
-[ -L /app/backend/.deer-flow ] || ln -sf /data/.deer-flow /app/backend/.deer-flow
-[ -L /app/backend/memory.json ] || ln -sf /data/memory.json /app/backend/memory.json
+rm -f /app/backend/.deer-flow && ln -sf /data/.deer-flow /app/backend/.deer-flow
+rm -f /app/backend/memory.json && ln -sf /data/memory.json /app/backend/memory.json
 
 echo "DeerFlow backend starting..."
 echo "  Gateway:   http://0.0.0.0:8001"
 echo "  LangGraph: http://0.0.0.0:2024"
-echo "  Config:    $DEER_FLOW_CONFIG_PATH"
+echo "  Config:    ${DEER_FLOW_CONFIG_PATH:-/app/config.yaml}"
 
-exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+# supervisord -n runs in foreground; reads /etc/supervisor/conf.d/*.conf automatically
+exec supervisord -n
