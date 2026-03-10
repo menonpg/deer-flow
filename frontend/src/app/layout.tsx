@@ -9,8 +9,8 @@ import { I18nProvider } from "@/core/i18n/context";
 import { detectLocaleServer } from "@/core/i18n/server";
 
 export const metadata: Metadata = {
-  title: "Create AI Everywhere",
-  description: "Your AI. Everywhere.",
+  title: "ThinkCreate.AI — Your AI. Everywhere.",
+  description: "ThinkCreate.AI — The AI agent platform. Research, code, create.",
 };
 
 const geist = Geist({

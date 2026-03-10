@@ -1,18 +1,18 @@
 /**
- * About Create AI Everywhere markdown content. Inlined to avoid raw-loader dependency
+ * About ThinkCreate.AI markdown content. Inlined to avoid raw-loader dependency
  * (Turbopack cannot resolve raw-loader for .md imports).
  */
-export const aboutMarkdown = `# ✨ [About Create AI Everywhere 2.0](https://github.com/bytedance/deer-flow)
+export const aboutMarkdown = `# ✨ [About ThinkCreate.AI 2.0](https://thinkcreateai.com)
 
 > **From Open Source, Back to Open Source**
 
-Create AI Everywhere (**D**eep **E**xploration and **E**fficient **R**esearch **Flow**) is an open-source **super agent harness** that orchestrates **sub-agents**, **memory**, and **sandboxes** to do almost anything — powered by **extensible skills**.
+ThinkCreate.AI (**D**eep **E**xploration and **E**fficient **R**esearch **Flow**) is an open-source **super agent harness** that orchestrates **sub-agents**, **memory**, and **sandboxes** to do almost anything — powered by **extensible skills**.
 
 ---
 
 ## 🚀 Core Features
 
-* **Skills & Tools**: With built-in and extensible skills and tools, Create AI Everywhere can do almost anything.
+* **Skills & Tools**: With built-in and extensible skills and tools, ThinkCreate.AI can do almost anything.
 * **Sub-Agents**: Sub-Agents help the main agent to do the tasks that are too complex to be done by the main agent.
 * **Sandbox & File System**: Safely execute code and manipulate files in the sandbox.
 * **Context Engineering**: Isolated sub-agent context, summarization to keep the context window sharp.
@@ -22,13 +22,13 @@ Create AI Everywhere (**D**eep **E**xploration and **E**fficient **R**esearch **
 
 ## 🌟 GitHub Repository
 
-![Star History Chart](https://api.star-history.com/svg?repos=bytedance/deer-flow&type=Date)
+![Star History Chart](
 
-Explore Create AI Everywhere on GitHub: [github.com/bytedance/deer-flow](https://github.com/bytedance/deer-flow)
+Explore ThinkCreate.AI on GitHub: [github.com/menonpg/deer-flow](https://github.com/menonpg/deer-flow)
 
 ## 🌐 Official Website
 
-Visit the official website of Create AI Everywhere: [deerflow.tech](https://deerflow.tech/)
+Visit the official website of ThinkCreate.AI: [deerflow.tech](https://deerflow.tech/)
 
 ## 📧 Support
 
@@ -38,13 +38,13 @@ If you have any questions or need help, please contact us at [support@deerflow.t
 
 ## 📜 License
 
-Create AI Everywhere is proudly open source and distributed under the **MIT License**.
+ThinkCreate.AI is proudly open source and distributed under the **MIT License**.
 
 ---
 
 ## 🙌 Acknowledgments
 
-We extend our heartfelt gratitude to the open source projects and contributors who have made Create AI Everywhere a reality. We truly stand on the shoulders of giants.
+We extend our heartfelt gratitude to the open source projects and contributors who have made ThinkCreate.AI a reality. We truly stand on the shoulders of giants.
 
 ### Core Frameworks
 - **[LangChain](https://github.com/langchain-ai/langchain)**: A phenomenal framework that powers our LLM interactions and chains.
@@ -55,13 +55,13 @@ We extend our heartfelt gratitude to the open source projects and contributors w
 - **[Shadcn](https://ui.shadcn.com/)**: Minimalistic components that power our UI.
 - **[SToneX](https://github.com/stonexer)**: For his invaluable contribution to token-by-token visual effects.
 
-These outstanding projects form the backbone of Create AI Everywhere and exemplify the transformative power of open source collaboration.
+These outstanding projects form the backbone of ThinkCreate.AI and exemplify the transformative power of open source collaboration.
 
 ### Special Thanks
-Finally, we want to express our heartfelt gratitude to the core authors of Create AI Everywhere 1.0 and 2.0:
+Finally, we want to express our heartfelt gratitude to the core authors of ThinkCreate.AI 1.0 and 2.0:
 
 - **[Daniel Walnut](https://github.com/hetaoBackend/)**
 - **[Henry Li](https://github.com/magiccube/)**
 
-Without their vision, passion and dedication, \`Create AI Everywhere\` would not be what it is today.
+Without their vision, passion and dedication, \`ThinkCreate.AI\` would not be what it is today.
 `;

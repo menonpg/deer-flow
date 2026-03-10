@@ -15,7 +15,7 @@ export function SkillsSection({ className }: { className?: string }) {
           Agent Skills are loaded progressively — only what&apos;s needed, when
           it&apos;s needed.
           <br />
-          Extend Create AI Everywhere with your own skill files, or use our built-in
+          Extend ThinkCreate.AI with your own skill files, or use our built-in
           library.
         </div>
       }

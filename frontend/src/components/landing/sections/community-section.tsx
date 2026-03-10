@@ -16,11 +16,11 @@ export function CommunitySection() {
           Join the Community
         </AuroraText>
       }
-      subtitle="Contribute brilliant ideas to shape the future of Create AI Everywhere. Collaborate, innovate, and make impacts."
+      subtitle="Contribute brilliant ideas to shape the future of ThinkCreate.AI. Collaborate, innovate, and make impacts."
     >
       <div className="flex justify-center">
         <Button className="text-xl" size="lg" asChild>
-          <Link href="https://github.com/bytedance/deer-flow" target="_blank">
+          <Link href="https://thinkcreateai.com" target="_blank">
             <GitHubLogoIcon />
             Contribute Now
           </Link>

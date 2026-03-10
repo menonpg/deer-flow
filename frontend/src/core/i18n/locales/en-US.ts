@@ -49,11 +49,11 @@ export const enUS: Translations = {
   welcome: {
     greeting: "Hello, again!",
     description:
-      "Welcome to ✨ Create AI Everywhere, an open source super agent. With built-in and custom skills, Create AI Everywhere helps you search on the web, analyze data, and generate artifacts like slides, web pages and do almost anything.",
+      "Welcome to ✨ ThinkCreate.AI, an open source super agent. With built-in and custom skills, ThinkCreate.AI helps you search on the web, analyze data, and generate artifacts like slides, web pages and do almost anything.",
 
     createYourOwnSkill: "Create Your Own Skill",
     createYourOwnSkillDescription:
-      "Create your own skill to release the power of Create AI Everywhere. With customized skills,\nCreate AI Everywhere can help you search on the web, analyze data, and generate\n artifacts like slides, web pages and do almost anything.",
+      "Create your own skill to release the power of ThinkCreate.AI. With customized skills,\nThinkCreate.AI can help you search on the web, analyze data, and generate\n artifacts like slides, web pages and do almost anything.",
   },
 
   // Clipboard
@@ -204,13 +204,13 @@ export const enUS: Translations = {
 
   // Workspace
   workspace: {
-    officialWebsite: "Create AI Everywhere's official website",
-    githubTooltip: "Create AI Everywhere on Github",
+    officialWebsite: "ThinkCreate.AI's official website",
+    githubTooltip: "ThinkCreate.AI on Github",
     settingsAndMore: "Settings and more",
-    visitGithub: "Create AI Everywhere on GitHub",
+    visitGithub: "ThinkCreate.AI on GitHub",
     reportIssue: "Report a issue",
     contactUs: "Contact us",
-    about: "About Create AI Everywhere",
+    about: "About ThinkCreate.AI",
   },
 
   // Conversation
@@ -226,7 +226,7 @@ export const enUS: Translations = {
 
   // Page titles (document title)
   pages: {
-    appName: "CreateAI",
+    appName: "ThinkCreate.AI",
     chats: "Chats",
     newChat: "New chat",
     untitled: "Untitled",
@@ -252,7 +252,7 @@ export const enUS: Translations = {
     writeFile: "Write file",
     clickToViewContent: "Click to view file content",
     writeTodos: "Update to-do list",
-    skillInstallTooltip: "Install skill and make it available to Create AI Everywhere",
+    skillInstallTooltip: "Install skill and make it available to ThinkCreate.AI",
   },
 
   // Subtasks
@@ -273,7 +273,7 @@ export const enUS: Translations = {
   // Settings
   settings: {
     title: "Settings",
-    description: "Adjust how Create AI Everywhere looks and behaves for you.",
+    description: "Adjust how ThinkCreate.AI looks and behaves for you.",
     sections: {
       appearance: "Appearance",
       memory: "Memory",
@@ -285,7 +285,7 @@ export const enUS: Translations = {
     memory: {
       title: "Memory",
       description:
-        "Create AI Everywhere automatically learns from your conversations in the background. These memories help Create AI Everywhere understand you better and deliver a more personalized experience.",
+        "ThinkCreate.AI automatically learns from your conversations in the background. These memories help ThinkCreate.AI understand you better and deliver a more personalized experience.",
       empty: "No memory data to display.",
       rawJson: "Raw JSON",
       markdown: {
@@ -341,18 +341,18 @@ export const enUS: Translations = {
       createSkill: "Create skill",
       emptyTitle: "No agent skill yet",
       emptyDescription:
-        "Put your agent skill folders under the `/skills/custom` folder under the root folder of Create AI Everywhere.",
+        "Put your agent skill folders under the `/skills/custom` folder under the root folder of ThinkCreate.AI.",
       emptyButton: "Create Your First Skill",
     },
     notification: {
       title: "Notification",
       description:
-        "Create AI Everywhere only sends a completion notification when the window is not active. This is especially useful for long-running tasks so you can switch to other work and get notified when done.",
+        "ThinkCreate.AI only sends a completion notification when the window is not active. This is especially useful for long-running tasks so you can switch to other work and get notified when done.",
       requestPermission: "Request notification permission",
       deniedHint:
         "Notification permission was denied. You can enable it in your browser's site settings to receive completion alerts.",
       testButton: "Send test notification",
-      testTitle: "Create AI Everywhere",
+      testTitle: "ThinkCreate.AI",
       testBody: "This is a test notification.",
       notSupported: "Your browser does not support notifications.",
       disableNotification: "Disable notification",
