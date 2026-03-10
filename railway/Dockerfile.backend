@@ -27,6 +27,18 @@ RUN touch ./backend/.env
 # ── Install Python deps ───────────────────────────────────────────────────────
 RUN cd backend && uv sync
 
+# ── Data science packages (needed for EDA, visualisation, image tasks) ────────
+RUN pip install --no-cache-dir \
+    pandas \
+    matplotlib \
+    numpy \
+    seaborn \
+    scipy \
+    scikit-learn \
+    Pillow \
+    plotly \
+    openpyxl
+
 # ── Railway config ────────────────────────────────────────────────────────────
 COPY railway/config.railway.yaml ./config.yaml
 COPY railway/supervisord.conf /etc/supervisor/conf.d/deerflow.conf
