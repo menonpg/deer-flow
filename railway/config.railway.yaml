@@ -1,45 +1,46 @@
 # DeerFlow — Railway Deployment Config
-# Pre-configured for Azure OpenAI (uses existing credentials).
-# Swap any model block to your preferred provider.
+# Default: Ollama with minimax-m2:cloud (no API key needed!)
+# Ollama connects to MiniMax's cloud endpoint transparently.
 #
-# Required env vars (set in Railway dashboard → backend service):
-#   AZURE_OPENAI_API_KEY     — your Azure OpenAI key
-#   AZURE_OPENAI_ENDPOINT    — e.g. https://xxx.cognitiveservices.azure.com
-#   AZURE_OPENAI_API_VERSION — e.g. 2024-12-01-preview
+# Required: Add an Ollama service to your Railway project.
+# In Railway dashboard → New Service → search "Ollama"
+# Then set OLLAMA_BASE_URL as a reference variable pointing to that service.
 #
 # Optional:
-#   TAVILY_API_KEY           — https://tavily.com (1000 free/month)
-#   OLLAMA_URL               — if using Ollama service on Railway
+#   TAVILY_API_KEY  — https://tavily.com (1000 free searches/month)
 
 # ============================================================================
 # Models
 # ============================================================================
 models:
-  # ── Azure OpenAI (recommended — uses existing keys) ──────────────────────
-  - name: azure-gpt
-    display_name: Azure OpenAI GPT
-    use: langchain_openai:AzureChatOpenAI
-    azure_endpoint: $AZURE_OPENAI_ENDPOINT
-    api_key: $AZURE_OPENAI_API_KEY
-    azure_deployment: $AZURE_OPENAI_DEPLOYMENT
-    api_version: $AZURE_OPENAI_API_VERSION
+  # ── MiniMax M2 via Ollama cloud (no API key needed!) ─────────────────────
+  # Ollama transparently proxies to MiniMax's cloud — just pull and use.
+  # Pull via Railway shell: ollama pull minimax-m2:cloud
+  - name: minimax-m2
+    display_name: MiniMax M2 (Ollama Cloud)
+    use: langchain_openai:ChatOpenAI
+    model: minimax-m2:cloud
+    api_key: ollama
+    base_url: $OLLAMA_BASE_URL/v1
     max_tokens: 4096
     temperature: 0.7
     supports_vision: false
 
-  # ── Ollama (optional — add Ollama service to Railway project) ────────────
-  # - name: ollama-llama3
-  #   display_name: Llama 3.2 (Ollama / Free)
-  #   use: langchain_openai:ChatOpenAI
-  #   model: llama3.2
-  #   api_key: ollama
-  #   base_url: $OLLAMA_URL/v1
+  # ── Azure OpenAI (alternative — set AZURE_* env vars in Railway) ──────────
+  # - name: azure-gpt
+  #   display_name: Azure GPT
+  #   use: langchain_openai:AzureChatOpenAI
+  #   model: gpt-5
+  #   azure_endpoint: $AZURE_OPENAI_ENDPOINT
+  #   api_key: $AZURE_OPENAI_API_KEY
+  #   azure_deployment: $AZURE_OPENAI_DEPLOYMENT
+  #   api_version: $AZURE_OPENAI_API_VERSION
   #   max_tokens: 4096
   #   temperature: 0.7
 
-  # ── MiniMax (free cloud — get key at minimaxi.com/en) ────────────────────
-  # - name: minimax
-  #   display_name: MiniMax Text-01 (Free)
+  # ── MiniMax API direct (free tier — sign up at minimaxi.com/en) ──────────
+  # - name: minimax-direct
+  #   display_name: MiniMax Text-01 (Direct API)
   #   use: langchain_openai:ChatOpenAI
   #   model: MiniMax-Text-01
   #   api_key: $MINIMAX_API_KEY
@@ -62,7 +63,7 @@ tools:
     use: src.community.tavily.tools:web_search_tool
     max_results: 5
 
-  # Web fetch — Jina AI reader (free, no API key required)
+  # Web fetch — Jina AI reader (free, no key)
   - name: web_fetch
     group: web
     use: src.community.jina_ai.tools:web_fetch_tool
@@ -136,9 +137,6 @@ summarization:
     type: messages
     value: 10
 
-# ============================================================================
-# Title generation
-# ============================================================================
 title:
   enabled: true
   max_words: 6
