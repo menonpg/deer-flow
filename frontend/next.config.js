@@ -4,27 +4,23 @@
  */
 import "./src/env.js";
 
-// Backend URL — can be overridden at build time via NEXT_PUBLIC_BACKEND_BASE_URL.
-// Falls back to Railway proxy rewrites (afterFiles) so the app works without
-// baking the URL into the bundle.
+// Backend URL for API proxy.
+// NEXT_PUBLIC_BACKEND_BASE_URL must be available at *build* time (Docker build arg or
+// baked in). Falls back to the Railway backend domain so local dev still works.
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_BASE_URL || "";
+  process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+  "https://backend-production-3b9f.up.railway.app";
 
 /** @type {import("next").NextConfig} */
 const config = {
   devIndicators: false,
 
   // Proxy /api/* (except /api/auth which is a real Next.js route) and /mock/api/*
-  // to the DeerFlow backend. This lets the frontend work without build-time env vars.
+  // to the DeerFlow backend.
+  // Uses afterFiles so /api/auth/[...all] (a real Next.js route) is matched first.
   async rewrites() {
-    if (!BACKEND_URL) {
-      // No backend URL — rewrites disabled (dev or static-only mode)
-      return [];
-    }
     return {
       beforeFiles: [],
-      // afterFiles: checked AFTER static files and Next.js routes.
-      // /api/auth/[...all] exists as a real route so it wins; everything else proxies.
       afterFiles: [
         {
           source: "/api/:path*",
