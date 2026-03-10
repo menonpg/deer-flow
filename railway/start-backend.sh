@@ -5,6 +5,10 @@ echo "DeerFlow backend starting on Railway..."
 
 # ── Persistent volume setup (/data) ─────────────────────────────────────────
 mkdir -p /data/.deer-flow
+
+# ── Symlink /mnt/skills → /app/skills so skill scripts work with hardcoded /mnt paths ──
+mkdir -p /app/skills
+ln -sfn /app/skills /mnt/skills
 [ -f /data/memory.json ] || echo '{}' > /data/memory.json
 rm -f /app/backend/.deer-flow && ln -sf /data/.deer-flow /app/backend/.deer-flow
 rm -f /app/backend/memory.json && ln -sf /data/memory.json /app/backend/memory.json

@@ -45,6 +45,9 @@ COPY railway/supervisord.conf /etc/supervisor/conf.d/deerflow.conf
 COPY railway/start-backend.sh /start.sh
 RUN chmod +x /start.sh
 
+# Create /mnt so skill symlink works at runtime
+RUN mkdir -p /mnt /app/skills /mnt/user-data/workspace /mnt/user-data/outputs
+
 EXPOSE 8001 2024
 
 CMD ["/start.sh"]
