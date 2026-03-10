@@ -23,7 +23,7 @@ if [ ! -f "$SKILLS_STAMP" ]; then
   TMPDIR=$(mktemp -d)
 
   # Full shallow clone (sparse-checkout is unreliable for subdirectory file content)
-  if git clone --depth=1 "https://github.com/bytedance/deer-flow.git" "$TMPDIR/df" 2>&1; then
+  if git clone --depth=1 "https://github.com/menonpg/deer-flow.git" "$TMPDIR/df" 2>&1; then
     if [ -d "$TMPDIR/df/skills" ]; then
       mkdir -p "$SKILLS_DIR"
       cp -r "$TMPDIR/df/skills/." "$SKILLS_DIR/"
