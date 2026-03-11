@@ -23,6 +23,12 @@ Write all site files to `/mnt/user-data/workspace/site-build/`:
 The site must be fully self-contained (no external build step).
 Inline critical CSS/JS if possible to minimize file count.
 
+**ALWAYS include the ThinkCreate.AI favicon in every `index.html`** — add this inside `<head>`:
+```html
+<link rel="icon" type="image/svg+xml" href="https://ask.themenonlab.com/favicon.svg">
+<link rel="shortcut icon" href="https://ask.themenonlab.com/favicon.svg">
+```
+
 ### Step 2: Choose a slug
 
 Create a short, descriptive slug for the site (kebab-case, max 40 chars).
