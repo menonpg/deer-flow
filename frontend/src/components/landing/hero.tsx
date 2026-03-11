@@ -36,8 +36,9 @@ export function Hero({ className }: { className?: string }) {
         flickerChance={0.3}
       />
       <div className="container-md relative z-10 mx-auto flex h-screen flex-col items-center justify-center">
-        <h1 className="flex items-center gap-2 text-4xl font-bold md:text-6xl">
+        <h1 className="flex flex-col items-center gap-1 text-4xl font-bold md:text-6xl text-center">
           <WordRotate
+            className="whitespace-nowrap"
             words={[
               "Deep Research",
               "Collect Data",
@@ -53,8 +54,8 @@ export function Hero({ className }: { className?: string }) {
               "Do Anything",
               "Learn Anything",
             ]}
-          />{" "}
-          <div>with ThinkCreate.AI</div>
+          />
+          <div className="whitespace-nowrap text-3xl md:text-5xl">with ThinkCreate.AI</div>
         </h1>
         <p
           className="mt-8 scale-105 text-center text-2xl text-shadow-sm"
