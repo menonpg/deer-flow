@@ -11,6 +11,13 @@ import { detectLocaleServer } from "@/core/i18n/server";
 export const metadata: Metadata = {
   title: "ThinkCreate.AI — Your AI. Everywhere.",
   description: "ThinkCreate.AI — The AI agent platform. Research, code, create.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/favicon.svg",
+  },
 };
 
 const geist = Geist({
